@@ -16,15 +16,24 @@ public class StringHelper {
 	}
 
 	List<String> stringLst = new ArrayList<String>();
-	List<String> commentList = new ArrayList<String>();
+	List<String> commentLst = new ArrayList<String>();
 
 	public List<String> getAllComents() {
-		return commentList;
+		return commentLst;
 	}
 
 	public List<String> getAllStrings() {
 		return stringLst;
 	}
+	
+	public long getTotalStringsCount() {
+		return getCount(stringLst);
+	}
+
+	public long getTotalCommentsCount() {
+		return getCount(commentLst);
+	}
+	
 
 	public String findComments(String line) {
 		if (!line.contains("#"))
@@ -42,17 +51,17 @@ public class StringHelper {
 			String comment = findComments(line);
 			stringLst.addAll(stringsFromLine);
 			if (comment != null)
-				commentList.add(comment);
+				commentLst.add(comment);
 		}
 	}
 
 	public List<String> findString(String line) {
 
-		List<String> stringsFromLine = new ArrayList();
+		List<String> stringsFromLine = new ArrayList<String>();
 
 		int startingIndex = line.indexOf("\"");
 
-		for (; startingIndex != -1;) {
+		while(startingIndex != -1) {
 
 			int nextIndex = line.indexOf("\"", startingIndex + 1);
 
@@ -63,18 +72,10 @@ public class StringHelper {
 			stringsFromLine.add(subSequence);
 			startingIndex = line.indexOf("\"", nextIndex + 1);
 		}
-
 		return stringsFromLine;
 	}
 	
-	public long getTotalStringsCount() {
-		return getCount(stringLst);
-	}
 
-	public long getTotalCommentsCount() {
-		return getCount(commentList);
-	}
-	
 	public long getCount(List<String> dataList) {
 		long count = 0;
 		for(String str: dataList) {
